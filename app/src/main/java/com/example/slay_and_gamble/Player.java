@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class Player {
+    int strength = 0;
+    int vulnerable = 0;
     int maxHp = 70;
     int hp = maxHp;
     int maxEnergy = 3;
