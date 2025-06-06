@@ -1,34 +1,28 @@
 package com.example.slay_and_gamble;
 
+import java.util.List;
+
 enum Type {ATTACK, DEFENSE, SKILL, POWER};
 
 public class Card {
     String name;
     String description;
     int cost;
-    int value;
-
     Type type;
+    List<Effect> effects;
+
+    public Card(String name, String description, int cost, Type type, List<Effect> effects) {
+        this.name = name;
+        this.description = description;
+        this.cost = cost;
+        this.type = type;
+        this.effects = effects;
+    }
+
 
     void applyEffect(Player self, Enemy enemy){
-        switch (this.type){
-            case ATTACK:
-                enemy.hp -= value;
-                if (enemy.hp <= 0){
-                    enemy.hp = 0;
-                    enemy.die();
-                }
-                break;
-            case DEFENSE:
-                self.armor += value;
-                break;
-            case SKILL:
-
-                break;
-            case POWER:
-
-                break;
-
+        for (Effect effect: effects){
+            effect.apply(self, enemy);
         }
     }
 }

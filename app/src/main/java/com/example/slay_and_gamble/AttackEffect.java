@@ -3,9 +3,7 @@ package com.example.slay_and_gamble;
 public class AttackEffect implements Effect {
     int value;
 
-    public AttackEffect(int value) {
-        this.value = value;
-    }
+    public AttackEffect(int value) {this.value = value;}
 
     @Override
     public void apply(Player self, Enemy enemy) {
