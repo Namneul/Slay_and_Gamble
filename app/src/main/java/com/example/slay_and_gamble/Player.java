@@ -36,16 +36,8 @@ public class Player {
             }
         }
     }
-    void playCard(Card card){
-
-    }
-
-    void StarTurn(){
-        drawCard(1);
-        energy = maxEnergy;
-    }
-
-    void endTurn(){
-
+    void discardHand(){
+        discardPile.addAll(hand);
+        hand.clear();
     }
 }

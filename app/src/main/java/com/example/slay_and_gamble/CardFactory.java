@@ -1,6 +1,7 @@
 package com.example.slay_and_gamble;
 
 import static com.example.slay_and_gamble.TargetType.ENEMY;
+import static com.example.slay_and_gamble.TargetType.PLAYER;
 import static com.example.slay_and_gamble.Type.*;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class CardFactory {
                 "피해를 14 줍니다. \n 힘의 효과가 2배로 적용됩니다.",
                 2,
                 ATTACK,
-                Arrays.asList(new AttackEffect(8)));
+                Arrays.asList(new HeavyBladeEffect(14)));
     }
 
     public static Card createShieldAttack(){
@@ -51,5 +52,43 @@ public class CardFactory {
                 Arrays.asList(new AttackEffect(5), new GainArmorEffect(5)));
     }
 
+    public static Card createParry(){
+        return new Card(
+                "패링",
+                "방어도를 8 얻습니다. \n 취약을 2 부여합니다.",
+                2,
+                SKILL,
+                Arrays.asList(new GainArmorEffect(8), new ApplyVulnerabilityEffect(2, ENEMY)));
+    }
+    public static Card createBulkUp(){
+        return new Card(
+                "벌크업",
+                "힘을 2 얻습니다.",
+                2,
+                POWER,
+                Arrays.asList(new StrengthenEffect(2, PLAYER)));
+    }
 
+    public static Card createSearchingChance(){
+        return new Card(
+                "기회 탐색",
+                "방어도를 8 얻습니다. \n 카드를 한 장 뽑습니다.",
+                2,
+                SKILL,
+                Arrays.asList(new GainArmorEffect(8), new DrawCardEffect(1)));
+    }
+
+
+    public static List<Card> getRewardCandidates() {
+        return Arrays.asList(
+                createBasicAttack(),
+                createBasicDefense(),
+                createBashAttack(),
+                createHeavyBlade(),
+                createShieldAttack(),
+                createParry(),
+                createBulkUp(),
+                createSearchingChance()
+        );
+    }
 }

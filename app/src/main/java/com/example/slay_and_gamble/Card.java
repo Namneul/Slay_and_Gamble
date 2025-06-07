@@ -10,6 +10,7 @@ public class Card {
     int cost;
     Type type;
     List<Effect> effects;
+    String imageName; // 생성자에 추가 ㄱㄱ
 
     public Card(String name, String description, int cost, Type type, List<Effect> effects) {
         this.name = name;
