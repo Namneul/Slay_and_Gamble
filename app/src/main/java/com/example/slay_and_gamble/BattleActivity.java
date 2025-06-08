@@ -1,6 +1,7 @@
 package com.example.slay_and_gamble;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,12 +28,16 @@ public class BattleActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         gameManager.startBattle();
         Player player = gameManager.player;
+        Log.d("BattleActivity", "hand size: " + player.hand.size());
+
 
         binding.handView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         );
         adapter = new CardAdapter(player.hand);
+        binding.handView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.handView.setAdapter(adapter);
+
 
         gameManager.setEventListener(new GameEventListener() {
             @Override

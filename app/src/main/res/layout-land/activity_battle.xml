@@ -101,12 +101,13 @@
             android:id="@+id/hand_view"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:contentDescription="플레이어 손패 카드 목록" />
+
 
         <ImageView
             android:id="@+id/discard_icon"

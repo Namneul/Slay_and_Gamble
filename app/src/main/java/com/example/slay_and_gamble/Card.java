@@ -10,9 +10,9 @@ public class Card {
     int cost;
     Type type;
     List<Effect> effects;
-    String imageName; // 생성자에 추가 ㄱㄱ
+    String imageName;
 
-    public Card(String name, String description, int cost, Type type, List<Effect> effects) {
+    public Card(String name, String description, int cost, Type type, List<Effect> effects, String imageName) {
         this.name = name;
         this.description = description;
         this.cost = cost;

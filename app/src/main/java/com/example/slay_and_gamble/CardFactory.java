@@ -13,7 +13,8 @@ public class CardFactory {
                 "피해를 6 줍니다",
                 1,
                 ATTACK,
-                Arrays.asList(new AttackEffect(6)));
+                Arrays.asList(new AttackEffect(6)),
+                "attack_img");
     }
 
     public static Card createBasicDefense(){
@@ -22,7 +23,8 @@ public class CardFactory {
                 "방어도를 5 얻습니다.",
                 1,
                 DEFENSE,
-                Arrays.asList(new GainArmorEffect(5)));
+                Arrays.asList(new GainArmorEffect(5)),
+                "defense_img");
     }
 
     public static Card createBashAttack(){
@@ -31,7 +33,8 @@ public class CardFactory {
                 "피해를 8 줍니다. \n 취약을 2 부여합니다",
                 2,
                 ATTACK,
-                Arrays.asList(new AttackEffect(8), new ApplyVulnerabilityEffect(2, ENEMY)));
+                Arrays.asList(new AttackEffect(8), new ApplyVulnerabilityEffect(2, ENEMY)),
+                "bash_img");
     }
 
     public static Card createHeavyBlade(){
@@ -40,7 +43,8 @@ public class CardFactory {
                 "피해를 14 줍니다. \n 힘의 효과가 2배로 적용됩니다.",
                 2,
                 ATTACK,
-                Arrays.asList(new HeavyBladeEffect(14)));
+                Arrays.asList(new HeavyBladeEffect(14)),
+                "heavyblade_img");
     }
 
     public static Card createShieldAttack(){
@@ -49,7 +53,8 @@ public class CardFactory {
                 "피해를 5 줍니다. \n 방어도를 5 얻습니다.",
                 1,
                 ATTACK,
-                Arrays.asList(new AttackEffect(5), new GainArmorEffect(5)));
+                Arrays.asList(new AttackEffect(5), new GainArmorEffect(5)),
+                "shieldattack_img");
     }
 
     public static Card createParry(){
@@ -58,7 +63,8 @@ public class CardFactory {
                 "방어도를 8 얻습니다. \n 취약을 2 부여합니다.",
                 2,
                 SKILL,
-                Arrays.asList(new GainArmorEffect(8), new ApplyVulnerabilityEffect(2, ENEMY)));
+                Arrays.asList(new GainArmorEffect(8), new ApplyVulnerabilityEffect(2, ENEMY)),
+                "parry_img");
     }
     public static Card createBulkUp(){
         return new Card(
@@ -66,7 +72,8 @@ public class CardFactory {
                 "힘을 2 얻습니다.",
                 2,
                 POWER,
-                Arrays.asList(new StrengthenEffect(2, PLAYER)));
+                Arrays.asList(new StrengthenEffect(2, PLAYER)),
+                "bulkup_img");
     }
 
     public static Card createSearchingChance(){
@@ -75,7 +82,8 @@ public class CardFactory {
                 "방어도를 8 얻습니다. \n 카드를 한 장 뽑습니다.",
                 2,
                 SKILL,
-                Arrays.asList(new GainArmorEffect(8), new DrawCardEffect(1)));
+                Arrays.asList(new GainArmorEffect(8), new DrawCardEffect(1)),
+                "searchingchance_img");
     }
 
 
