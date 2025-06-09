@@ -1,9 +1,12 @@
 package com.example.slay_and_gamble;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -105,6 +108,12 @@ public class BattleActivity extends AppCompatActivity {
                 });
             }
 
+            public void onEnemyAttacked() {
+                animateEnemyHit();
+            }
+            public void onPlayerAttacked() {
+                animatePlayerHit();
+            }
         });
 
 
@@ -128,6 +137,33 @@ public class BattleActivity extends AppCompatActivity {
         Log.d("BattleActivity", "랜덤 적 이미지 idx=" + idx + ", name=" + enemyImages[idx] + ", resId=" + resId);
         binding.enemyImg.setImageResource(resId != 0 ? resId : R.drawable.animal_monster);
     }
+
+    public void animateEnemyHit() {
+        binding.enemyImg.setColorFilter(0x88FF0000, PorterDuff.Mode.SRC_ATOP);
+
+        // 2. 흔들림 애니메이션도 동시에!
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        binding.enemyImg.startAnimation(shake);
+
+        // 3. 180ms(흔들림 중간쯤) 뒤에 원래대로 복원
+        binding.enemyImg.postDelayed(() -> {
+            binding.enemyImg.clearColorFilter();
+        }, 180);
+    }
+    public void animatePlayerHit() {
+        binding.playerImg.setColorFilter(0x88FF0000, PorterDuff.Mode.SRC_ATOP);
+
+        // 2. 흔들림 애니메이션도 동시에!
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        binding.playerImg.startAnimation(shake);
+
+        // 3. 180ms(흔들림 중간쯤) 뒤에 원래대로 복원
+        binding.playerImg.postDelayed(() -> {
+            binding.playerImg.clearColorFilter();
+        }, 180);
+    }
+
+
 
     private void showRewardCards() {
         // 1. GameManager에서 보상 후보 3장 뽑기

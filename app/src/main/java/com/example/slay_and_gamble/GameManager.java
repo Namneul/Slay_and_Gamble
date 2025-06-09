@@ -3,7 +3,6 @@ package com.example.slay_and_gamble;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 enum BattleResult {NONE, WIN, LOSE}
 
 public class GameManager {
@@ -64,6 +63,9 @@ public class GameManager {
             card.applyEffect(player, enemy);
             player.hand.remove(card);
             player.discardPile.add(card);
+            if (eventListener != null && card.type == Type.ATTACK) {
+                eventListener.onEnemyAttacked();
+            }
             endBattle();
             if (eventListener != null) eventListener.onStatsChanged();
         }
@@ -82,7 +84,11 @@ public class GameManager {
         if (enemy.vulnerable > 0){
             enemy.vulnerable--;
         }
+        Enemy.Intent action = enemy.nextAction;
         enemy.takeAction(player);
+        if (action == Enemy.Intent.ATTACK || action == Enemy.Intent.ATTACK_DEBUFF) {
+                eventListener.onPlayerAttacked();
+        }
         if (eventListener != null) eventListener.onStatsChanged();
         endBattle();
         endEnemyTurn();

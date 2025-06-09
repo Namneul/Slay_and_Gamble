@@ -34,7 +34,7 @@
                 android:id="@+id/player_hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HP: 80"
+                android:text="HP: 70"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 

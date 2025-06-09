@@ -27,6 +27,7 @@ public class Enemy {
             case ATTACK:
                 dealt = calcEnemyDamageToPlayer(totalDamage, player.armor, player.vulnerable > 0);
                 player.hp -= dealt;
+
                 break;
             case BLOCK:
                 armor += 5;
