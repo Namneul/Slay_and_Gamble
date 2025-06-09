@@ -22,35 +22,70 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/playerDebuff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="취약: 0 힘: 0"
+                android:textColor="#F2D649"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/player_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HP: 80"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/player_energy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="에너지: 3"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/player_armor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="방어도: 0"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+
+
             <ImageView
                 android:id="@+id/player_img"
                 android:layout_width="190dp"
                 android:layout_height="190dp"
-                android:src="@drawable/player" />
+                android:src="@drawable/player"
+                android:layout_marginBottom="70dp"/>
 
-            <TextView
-                android:id="@+id/player_hp"
-                android:text="HP: 80"
-                android:textSize="16sp"
-                android:textColor="#ffffff"
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rewardGroup"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <!-- 카드 3장 보상 -->
+            <LinearLayout
+                android:id="@+id/rewardLayout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
-            <TextView
-                android:id="@+id/player_energy"
-                android:text="에너지: 3"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"/>
 
-            <TextView
-                android:id="@+id/player_armor"
-                android:text="방어도: 0"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
+            <!-- 다음 단계 버튼 -->
         </LinearLayout>
 
         <LinearLayout
@@ -59,16 +94,46 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent">
-            <ImageView android:id="@+id/enemy_img"
-                android:layout_width="170dp" android:layout_height="170dp"
-                android:src="@drawable/animal_monster"/>
+
+            <TextView
+                android:id="@+id/enemyDebuff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="취약: 0 힘: 0"
+                android:textColor="#F2D649"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
             <TextView android:id="@+id/enemy_hp"
                 android:text="HP: 50"
                 android:textSize="16sp"
                 android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/enemy_armor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="방어도: 0"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/enemyIntent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="적의 다음 행동"
+                android:textSize="16sp"
+                android:textColor="#CC2B2B"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <ImageView android:id="@+id/enemy_img"
+                android:layout_width="170dp" android:layout_height="170dp"
+                android:src="@drawable/animal_monster"
+                android:layout_marginBottom="70dp"/>
+
         </LinearLayout>
+
+
     </LinearLayout>
 
     <!-- 아래쪽 영역: 덱, 핸드, 버린더미 -->
@@ -97,6 +162,8 @@
             android:layout_marginLeft="-10dp"
             />
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hand_view"
             android:layout_width="0dp"
@@ -108,11 +175,34 @@
             android:orientation="horizontal"
             android:contentDescription="플레이어 손패 카드 목록" />
 
+        <Button
+            android:id="@+id/endTurnBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="턴 종료"
+            android:textColor="#E9CE6D"
+            android:background="#00ff0000"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"/>
+
+
+        <TextView
+            android:id="@+id/discardPileCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:text="0"
+            android:layout_gravity="top"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="-10dp"
+            />
 
         <ImageView
             android:id="@+id/discard_icon"
             android:layout_width="80dp"
             android:layout_height="120dp"
             android:src="@drawable/discard_pile" />
+
     </LinearLayout>
 </RelativeLayout>

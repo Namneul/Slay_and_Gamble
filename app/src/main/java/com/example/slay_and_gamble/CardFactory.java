@@ -89,9 +89,6 @@ public class CardFactory {
 
     public static List<Card> getRewardCandidates() {
         return Arrays.asList(
-                createBasicAttack(),
-                createBasicDefense(),
-                createBashAttack(),
                 createHeavyBlade(),
                 createShieldAttack(),
                 createParry(),

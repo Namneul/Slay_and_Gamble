@@ -1,6 +1,5 @@
 package com.example.slay_and_gamble;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.*;
+import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+
     private List<Card> cards;
+
+    // 1. 카드 클릭 리스너 인터페이스 선언
+    public interface OnCardClickListener {
+        void onCardClick(Card card);
+    }
+
+    private OnCardClickListener cardClickListener;
+
+    // 2. 리스너 세터
+    public void setOnCardClickListener(OnCardClickListener listener) {
+        this.cardClickListener = listener;
+    }
 
     public CardAdapter(List<Card> cards) {
         this.cards = cards;
@@ -29,21 +41,22 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         Card card = cards.get(position);
-        holder.cardName.setText(card.name);
-        holder.cardCost.setText(String.valueOf(card.cost));
-        holder.cardDescription.setText(card.description);
-        int resId = holder.itemView.getContext().getResources().getIdentifier(
-                card.imageName, "drawable", holder.itemView.getContext().getPackageName()
-        );
-        if (resId != 0){
-            holder.cardImage.setImageResource(resId);
-        } else {
-            holder.cardImage.setImageResource(R.drawable.card_background); // 기본 이미지
-            Log.e("CardAdapter", "이미지 리소스를 찾을 수 없음: " + card.imageName);
-        }
-        Log.d("CardAdapter", "카드: " + card.name + ", 이미지: " + card.imageName);
-        Log.d("CardAdapter", "리소스 ID: " + resId);
 
+        holder.cardName.setText(card.name != null ? card.name : "이름 없음");
+        holder.cardCost.setText(String.valueOf(card.cost));
+        holder.cardDescription.setText(card.description != null ? card.description : "");
+
+        int illuResId = holder.itemView.getContext().getResources()
+                .getIdentifier(card.imageName, "drawable", holder.itemView.getContext().getPackageName());
+        holder.cardIllustration.setImageResource(illuResId != 0 ? illuResId : R.drawable.back1);
+        holder.cardBg.setImageResource(R.drawable.card_background);
+
+        // 3. 클릭 이벤트에 리스너 연결 (카드 객체만 넘김)
+        holder.itemView.setOnClickListener(v -> {
+            if (cardClickListener != null) {
+                cardClickListener.onCardClick(card);
+            }
+        });
     }
 
     @Override
@@ -52,15 +65,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
+        ImageView cardBg, cardIllustration;
         TextView cardName, cardCost, cardDescription;
-        ImageView cardImage;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardBg = itemView.findViewById(R.id.card_bg);
+            cardIllustration = itemView.findViewById(R.id.card_illustration);
             cardName = itemView.findViewById(R.id.cardName);
             cardCost = itemView.findViewById(R.id.cardCost);
             cardDescription = itemView.findViewById(R.id.cardDescription);
-            cardImage = itemView.findViewById(R.id.card_image);
         }
     }
 }

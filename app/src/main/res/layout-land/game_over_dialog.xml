@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/back1"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="36dp">
+
+    <ImageView
+        android:id="@+id/gameOverImg"
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:src="@drawable/gameover"
+    android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/currentStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이번 연승: 0회"
+        android:textSize="20sp"
+        android:textColor="#FFE49C"
+        android:layout_marginBottom="8dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/bestStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최고 연승: 0회"
+        android:textSize="18sp"
+        android:textColor="#FFDD74"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"/>
+
+    <ImageButton
+        android:id="@+id/retryBtn"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:textColor="#FFD700"
+        android:background="@drawable/buttonback"
+        android:textStyle="bold"
+        android:paddingLeft="36dp"
+        android:paddingRight="36dp"/>
+</LinearLayout>

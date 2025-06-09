@@ -14,6 +14,9 @@ public class GameManager {
         return instance;
     }
 
+    public int winStreak = 0;      // 현재 연승 수
+    public int bestStreak = 0;     // 최고 연승 수
+    public int stageNumber = 1;
     private GameManager() {} // 외부에서 생성 불가
     BattleResult battleResult = BattleResult.NONE;
     Player player;
@@ -23,35 +26,35 @@ public class GameManager {
 
     public void startBattle(){
         if (player == null) {
+            // 최초 1회만 Player 생성
             player = new Player();
-            player.deck = new ArrayList<>();
-            player.hand = new ArrayList<>();
-            player.discardPile = new ArrayList<>();
-
-            // 초반 덱 구성은 단 한 번만!
-            for (int i = 0; i < 5; i++) player.deck.add(CardFactory.createBasicAttack());
-            for (int i = 0; i < 4; i++) player.deck.add(CardFactory.createBasicDefense());
-            player.deck.add(CardFactory.createBashAttack());
-            player.deck.add(CardFactory.createShieldAttack());
-            player.deck.add(CardFactory.createBulkUp());
-            Collections.shuffle(player.deck);
-        }
-        else {
+            // Player 생성자에서 deck, hand, discardPile, maxEnergy 등 초기화
+        } else {
+            // Player를 새로 만들지 않고 상태만 리셋
             player.energy = player.maxEnergy;
             player.armor = 0;
+            player.vulnerable = 0;
+            player.strength = 0;
+            player.deck.addAll(player.hand);
+            player.deck.addAll(player.discardPile);
             player.hand.clear();
             player.discardPile.clear();
-            // deck은 그대로 유지 (셔플은 필요시)
+            Collections.shuffle(player.deck);
         }
-        enemy = new Enemy();
+        enemy = new Enemy(stageNumber);
         turnNumber = 1;
-        startPlayerTurn();
-        player.drawCard(4);
+        player.drawCard(4); // 전투 시작 시 핸드 드로우
+        if (eventListener != null) eventListener.onStatsChanged();
     }
+
 
     public void startPlayerTurn(){
         player.energy = player.maxEnergy;
-        player.drawCard(1);
+        player.drawCard(4);
+        player.armor = 0;
+        if (player.vulnerable > 0){
+            player.vulnerable--;
+        }
         if (eventListener != null) eventListener.onStatsChanged();
     }
 
@@ -67,13 +70,18 @@ public class GameManager {
     }
 
     public void playerEndTurn(){
-        startEnemyTurn();
         player.discardHand();
+        startEnemyTurn();
         if (eventListener != null) eventListener.onStatsChanged();
     }
 
 
     public void startEnemyTurn(){
+        enemy.armor = 0;
+
+        if (enemy.vulnerable > 0){
+            enemy.vulnerable--;
+        }
         enemy.takeAction(player);
         if (eventListener != null) eventListener.onStatsChanged();
         endBattle();
@@ -83,21 +91,23 @@ public class GameManager {
     public void endEnemyTurn(){
         turnNumber++;
         startPlayerTurn();
+        enemy.decideNextAction();
     }
 
     public void endBattle() {
         if (player.hp <= 0) {
             // 플레이어 패배 처리
             battleResult = BattleResult.LOSE;
+            if (winStreak > bestStreak) bestStreak = winStreak;
             System.out.println("패배! 게임 오버!");
-            // 추가로: 게임 오버 화면, 리셋, 종료 등 로직
+            if (eventListener != null) eventListener.onBattleEnded(battleResult);
         } else if (enemy.hp <= 0) {
             // 플레이어 승리 처리
             battleResult = BattleResult.WIN;
+            winStreak++;
             System.out.println("승리! 보상을 획득합니다.");
-            // 추가로: 보상 화면, 다음 전투, 결과 저장 등 로직
+            if (eventListener != null) eventListener.onBattleEnded(battleResult);
         }
-        // 전투 관련 상태 초기화 필요하면 여기서
     }
 
     public void showReward(){
@@ -114,6 +124,11 @@ public class GameManager {
 
     }
 
+    public void resetStreaks() {
+        winStreak = 0;
+        // bestStreak는 앱 재시작 전까지 유지 (원하면 여기서도 초기화 가능)
+    }
+
     public void selectRewardCard(int index) {
         if (rewardCards != null && index >= 0 && index < rewardCards.size()) {
             Card chosen = rewardCards.get(index);
@@ -121,6 +136,17 @@ public class GameManager {
             System.out.println(chosen.name + " 카드가 덱에 추가되었습니다.");
         }
     }
+    public void resetGame() {
+        // 모든 게임 상태, 플레이어, 적, 보상 등 전부 null로!
+        player = null;
+        enemy = null;
+        winStreak = 0;
+        battleResult = BattleResult.NONE;
+        rewardCards = null;
+        turnNumber = 0;
+        // 필요하면 bestStreak도 0으로 (하지만 최고기록은 남겨도 됨)
+    }
+
 
 
     private GameEventListener eventListener;

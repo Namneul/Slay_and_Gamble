@@ -10,9 +10,9 @@ public class AttackEffect implements Effect {
         int totalDamage = damage + self.strength;
         if (enemy.vulnerable > 0){
 
-            enemy.hp -= (int)Math.ceil(totalDamage * 1.5);
+            enemy.hp -= ((int)Math.ceil(totalDamage * 1.5) - enemy.armor);
         }else{
-            enemy.hp -= totalDamage;
+            enemy.hp -= (totalDamage - enemy.armor);
 
         }
         if (enemy.hp <= 0) {

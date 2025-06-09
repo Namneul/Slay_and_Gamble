@@ -18,6 +18,12 @@ public class Card {
         this.cost = cost;
         this.type = type;
         this.effects = effects;
+        this.imageName = imageName;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{name='" + name + "', imageName='" + imageName + "'}";
     }
 
 

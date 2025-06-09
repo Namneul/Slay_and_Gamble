@@ -12,10 +12,21 @@ public class Enemy {
 
     Intent nextAction;
 
+    public Enemy(int stage) {
+        maxHp = 50 + (stage - 1) * 10;   // 스테이지마다 +10
+        hp = maxHp;
+        damage = 5 + (stage - 1) * 1;    // 스테이지마다 +1
+        decideNextAction();
+    }
+
     public void takeAction(Player player){
+        int totalDamage = damage + strength;
+        int dealt;
+
         switch (nextAction){
             case ATTACK:
-                player.hp -= (damage + strength);
+                dealt = calcEnemyDamageToPlayer(totalDamage, player.armor, player.vulnerable > 0);
+                player.hp -= dealt;
                 break;
             case BLOCK:
                 armor += 5;
@@ -27,11 +38,18 @@ public class Enemy {
                 player.vulnerable += 2;
                 break;
             case ATTACK_DEBUFF:
-                player.hp -= (damage + strength);
+                dealt = calcEnemyDamageToPlayer(totalDamage, player.armor, player.vulnerable > 0); // vulnerable은 공격에만 반영, 여기선 추가 옵션도 가능
+                player.hp -= dealt;
                 player.vulnerable += 2;
                 break;
         }
         decideNextAction();
+    }
+
+    private int calcEnemyDamageToPlayer(int rawDamage, int armor, boolean isVulnerable) {
+        double applied = rawDamage * (isVulnerable ? 1.5 : 1.0) - armor;
+        int result = (int) Math.round(applied);
+        return Math.max(result, 0);
     }
 
     public void decideNextAction(){
